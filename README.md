@@ -43,3 +43,8 @@ reguly <- editset(c(
 summary(violatedEdits(reguly, mieszkania))
 bledy <- violatedEdits(reguly, mieszkania)
 plot(bledy)
+
+#imputacje braków danych
+czyste_mieszkania <- hotdeck(mieszkania)
+View(czyste_mieszkania)
+
