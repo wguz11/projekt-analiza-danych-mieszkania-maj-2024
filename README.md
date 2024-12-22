@@ -48,3 +48,22 @@ plot(bledy)
 czyste_mieszkania <- hotdeck(mieszkania)
 View(czyste_mieszkania)
 
+install.packages("ggplot2")
+install.packages("hrbrthemes")
+install.packages("plotly")
+install.packages("ISLR")
+library(ggplot2)
+library(hrbrthemes)
+library(plotly)
+library(ISLR)
+
+ggplot(czyste_mieszkania, aes(x=price,fill=condition)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w Polsce", x="cena", y="ilość") + theme_ipsum()
+  
+ggplot
+
+ggplot(czyste_mieszkania, aes(x=price,fill=hasParkingSpace)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w Polsce", x="cena", y="ilość") + theme_ipsum()
+
+ggplot(czyste_mieszkania, aes(x=price,fill=type)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w Polsce", x="cena", y="ilość") + theme_ipsum()
+
+ggplot(czyste_mieszkania, aes(x=price,fill=buildingMaterial)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w Polsce", x="cena", y="ilość") + theme_ipsum()
+
