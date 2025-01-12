@@ -93,7 +93,6 @@ y = "Typ",
 fill = "Typ"
 ) +
 theme_minimal()
-)
 ```
 
 
@@ -162,6 +161,25 @@ raport <-
             ))
 table<-summary_table(czyste_mieszkania, summaries = raport, by = c("city"))
 
+```
+
+```{r}
+library(gtsummary)
+mieszkania %>%
+  select(price,floor) %>%
+  tbl_summary(
+    by=floor,
+    type = all_continuous() ~ "continuous2",
+    statistic = all_continuous() ~ c(
+      "{N_nonmiss}","{mean}","{sd}",
+      "{median} ({p25}, {p75})",
+      "{min}, {max}"),
+    missing = "no",
+    label = price ~ "Cena") %>%
+  modify_header(label ~ "**Zmienna**") %>%
+  modify_caption("**Tabela 1. Rozkład cen wg liczby pokoi**") %>%
+  bold_labels() %>% 
+  add_p(pvalue_fun = ~ style_pvalue(.x, digits = 2))
 ```
 
 
