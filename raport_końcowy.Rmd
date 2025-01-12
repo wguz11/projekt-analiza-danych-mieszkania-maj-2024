@@ -177,7 +177,7 @@ mieszkania %>%
     missing = "no",
     label = price ~ "Cena") %>%
   modify_header(label ~ "**Zmienna**") %>%
-  modify_caption("**Tabela 1. Rozkład cen wg liczby pokoi**") %>%
+  modify_caption("**Tabela 1. Rozkład cen wg piętra**") %>%
   bold_labels() %>% 
   add_p(pvalue_fun = ~ style_pvalue(.x, digits = 2))
 ```
