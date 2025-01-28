@@ -221,44 +221,66 @@ axis.text.y = element_text(hjust = 1)
 ```
 
 
+# 3. Analiza opisowa
+
+Statystki opisowe dla zmiennej cena
 ```{r}
-mean(price)
-    median(price)
-    sd(price) #standard deviation
-    var(price) #variance
-    coeff_var<-sd(price)/mean(price) #coefficient of variability %
+mean(czyste_mieszkania$price)
+    median(czyste_mieszkania$price)
+    sd(czyste_mieszkania$price) #standard deviation
+    var(czyste_mieszkania$price) #variance
+    coeff_var<-sd(czyste_mieszkania$price)/mean(czyste_mieszkania$price) #coefficient of variability %
     coeff_var
-    IQR(price)# difference between quartiles =Q3-Q1 
-    sx<-IQR(price)/2  #interquartile deviation
-    coeff_varx<-sx/median(price) #IQR coefficient of variability %
+    IQR(czyste_mieszkania$price)# difference between quartiles =Q3-Q1 
+    sx<-IQR(czyste_mieszkania$price)/2  #interquartile deviation
+    coeff_varx<-sx/median(czyste_mieszkania$price) #IQR coefficient of variability %
     coeff_varx
-    min(price)
-    max(price)
-    quantile(price,probs=c(0,0.1,0.25,0.5,0.75,0.95,1),na.rm=TRUE)
+    min(czyste_mieszkania$price)
+    max(czyste_mieszkania$price)
+    quantile(czyste_mieszkania$price,probs=c(0,0.1,0.25,0.5,0.75,0.95,1),na.rm=TRUE)
 ```
+
+Statystyki opisowe dla zmiennej cena za metr kwadratowy
+```{r}
+mean(czyste_mieszkania$pricePerSquareMeter)
+median(czyste_mieszkania$pricePerSquareMeter)
+sd(czyste_mieszkania$pricePerSquareMeter) #standard deviation
+var(czyste_mieszkania$pricePerSquareMeter) #variance
+coeff_var<-sd(czyste_mieszkania$pricePerSquareMeter)/mean(czyste_mieszkania$pricePerSquareMeter) #coefficient of variability %
+coeff_var
+IQR(czyste_mieszkania$pricePerSquareMeter)# difference between quartiles =Q3-Q1 
+sx<-IQR(czyste_mieszkania$pricePerSquareMeter)/2  #interquartile deviation
+coeff_varx<-sx/median(czyste_mieszkania$pricePerSquareMeter) #IQR coefficient of variability %
+coeff_varx
+min(czyste_mieszkania$pricePerSquareMeter)
+max(czyste_mieszkania$pricePerSquareMeter)
+quantile(czyste_mieszkania$pricePerSquareMeter,probs=c(0,0.1,0.25,0.5,0.75,0.95,1),na.rm=TRUE)
+```
+
 
 
 
 ```{r}
 raport <-
   list("price" =
-       list("Min"=  min(price),
-            "Max"=  max(price),
-            "Kwartyl dolny"=  quantile(price,0.25),
-            "Mediana"=  round(median(price),2),
-            "Kwartyl górny"=  quantile(price,0.75),
-            "Średnia"=  round(mean(price),2),
-            "Odch. std."=  round(sd(price),2),
-            "IQR"=  round(IQR(price),2),
-            "Odchylenie ćwiartkowe"=round(IQR(price)/2,2),
-            "Odch. std. w %"=round((sd(price)/mean(price)),2),
-            "Odch. ćwiartkowe w %"=round((IQR(price)/median(price)),2),
-            "Skośność"=round(skew(price),2),
-            "Kurtoza"=round(kurtosi(price),2)
+       list("Min"=  min(czyste_mieszkania$price),
+            "Max"=  max(czyste_mieszkania$price),
+            "Kwartyl dolny"=  quantile(czyste_mieszkania$price,0.25),
+            "Mediana"=  round(median(czyste_mieszkania$price),2),
+            "Kwartyl górny"=  quantile(czyste_mieszkania$price,0.75),
+            "Średnia"=  round(mean(czyste_mieszkania$price),2),
+            "Odch. std."=  round(sd(czyste_mieszkania$price),2),
+            "IQR"=  round(IQR(czyste_mieszkania$price),2),
+            "Odchylenie ćwiartkowe"=round(IQR(czyste_mieszkania$price)/2,2),
+            "Odch. std. w %"=round((sd(czyste_mieszkania$price)/mean(czyste_mieszkania$price)),2),
+            "Odch. ćwiartkowe w %"=round((IQR(czyste_mieszkania$price)/median(czyste_mieszkania$price)),2),
+            "Skośność"=round(skew(czyste_mieszkania$price),2),
+            "Kurtoza"=round(kurtosi(czyste_mieszkania$price),2)
             ))
 table<-summary_table(czyste_mieszkania, summaries = raport, by = c("city"))
 
 ```
+Rozkład cen mieszkań na sprzedaż w zależności od piętra
 
 ```{r}
 library(gtsummary)
@@ -279,7 +301,25 @@ mieszkania %>%
   add_p(pvalue_fun = ~ style_pvalue(.x, digits = 2))
 ```
 
+Rozkład cen za metr kwadratowy według wielkości mieszkania
 
+```{r}
+czyste_mieszkania %>%
+  select(pricePerSquareMeter,sizeCategory) %>%
+  tbl_summary(
+    by=sizeCategory,
+    type = all_continuous() ~ "continuous2",
+    statistic = all_continuous() ~ c(
+      "{N_nonmiss}","{mean}","{sd}",
+      "{median} ({p25}, {p75})",
+      "{min}, {max}"),
+    missing = "no",
+    label = pricePerSquareMeter ~ "Cena za metr kwadratowy") %>%
+  modify_header(label ~ "**Zmienna**") %>%
+  modify_caption("**Tabela 1. Rozkład cen za metr kwadratowy wg wielkości mieszkania**") %>%
+  bold_labels() %>% 
+  add_p(pvalue_fun = ~ style_pvalue(.x, digits = 2))
+```
 
 
 
