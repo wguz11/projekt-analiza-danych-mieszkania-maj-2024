@@ -79,8 +79,6 @@ Dane mogły zawierać puste ciągi (" ", "") lub nieprawidłowe wartości, któr
 
 
 ```{r}
-
-
 mieszkania[mieszkania == " "] <- NA
 
 mieszkania[mieszkania == "  "] <- NA
@@ -88,28 +86,47 @@ mieszkania[mieszkania == "  "] <- NA
 mieszkania[mieszkania == ""] <- NA
 
 mieszkania[localizeErrors(reguly,mieszkania)$adapt] <- NA
-
-#reguły
-
-```{r}
-reguly <- editset(c(
-  "price>0",
-  "squareMeters>0",
-  "rooms>0",
-  "floor>0",
-  "floorCount>0"
-  ))
 ```
 
 
-```{r}
-summary(violatedEdits(reguly, mieszkania))
-bledy <- violatedEdits(reguly, mieszkania)
-plot(bledy)
-```
+## 1.3 Imputacja brakujących danych
 
-#imputacje braków danych
+Uzupełnianie brakujących danych metodą hot-deck, która zastępuje brakujące wartości na podstawie podobnych rekordów.
+Jest to efektywna metoda w przypadku, gdy dane mają wiele braków, ale są wystarczająco kompletne do uzupełnienia na podstawie istniejących wzorców.
+
+```{r}
 czyste_mieszkania <- hotdeck(mieszkania)
+
+```
+Po uzupełnieniu braków sprawdzamy podsumowanie danych, aby upewnić się, że proces przebiegł pomyślnie.
+
+```{r}
+summary(czyste_mieszkania)
+
+```
+## 1.5 Transformacja danych
+Aby dostarczyć dodatkowych informacji wartych przeanalizowania, tworzymy nowe zmienne.
+Pomagają one w lepszym zrozumieniu danych i umożliwiają bardziej szczegółowe analizy.
+W tym celu tworzymy zmienną "pricePerSquareMeter" określającą cenę za metr kwadratowy. Jest to ważna metryka w analizie rynku nieruchomości, ponieważ pozwala na porównanie cen mieszkań niezależnie od ich wielkości.
+
+```{r}
+czyste_mieszkania <- czyste_mieszkania %>% mutate(pricePerSquareMeter = price / squareMeters)
+```
+
+View(czyste_mieszkania)
+Dodatkowo, warto jet utworzyć kategorię wielkości mieszkań.
+W tym celu zastosujemy podział mieszkań na małe, średnie i duże na podstawie powierzchni użytkowej. Kategoryzacja ta ułatwi analizę porównawczą.
+```{r}
+czyste_mieszkania <- czyste_mieszkania %>% mutate(
+  sizeCategory = case_when(
+    squareMeters < 40 ~ "Małe", # Mieszkania poniżej 40m2
+    squareMeters >= 40 & squareMeters < 80 ~ "Średnie", # Mieszkania od 40m2 do 80m2
+    squareMeters >= 80 ~ "Duże" # Mieszkania powyżej 80m2
+  )
+)
+```
+
+
 ```{r}
 ggplot(czyste_mieszkania, aes(x=price,fill=condition)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w Polsce", x="cena", y="ilość") + theme_ipsum()
 ```
