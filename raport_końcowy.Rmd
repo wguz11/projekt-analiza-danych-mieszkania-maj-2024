@@ -40,9 +40,46 @@ Data wrangling, znane również jako data munging, to proces przygotowywania dan
 
 ## 1.1 Wizualizacja brakujących danych
 
-vis_miss(mieszkania)
+Na początku identyfikujemy brakujące dane w zestawie, aby upewnić się, że analiza będzie oparta na kompletnych i spójnych danych.
+Używamy funkcji vis_miss() do wizualizacji braków oraz missing_pattern() do zrozumienia wzorców brakujących wartości.
 
+
+```{r}
+vis_miss(mieszkania)
+```
+
+```{r}
 missing_pattern(mieszkania)
+```
+
+## 1.2 Reguły walidacji danych
+Tworzymy zestaw reguł, które definiują poprawność danych. Reguły te pozwalają wyłapać wartości błędne, np. ujemne ceny lub powierzchnie mieszkań.
+Dzięki temu możemy upewnić się, że dane spełniają podstawowe założenia logiczne.
+
+```{r}
+reguly <- editset(c(
+  "price>0",
+  "squareMeters>0",
+  "rooms>0",
+  "floor>0",
+  "floorCount>0"
+  ))
+```
+Kolejno sprawdzamy naruszenie reguł.
+Wyniki pokazują, ile rekordów łamie zdefiniowane reguły, co może wskazywać na błędy w danych.
+summary(violatedEdits(reguly, mieszkania))
+
+```{r}
+summary(violatedEdits(reguly, mieszkania))
+bledy <- violatedEdits(reguly, mieszkania)
+plot(bledy) # Wizualizacja błędów dla łatwiejszej interpretacji
+```
+Następnie przeprowadzona została zamiana pustych ciągów lub niepoprawnych wartości na NA
+Dane mogły zawierać puste ciągi (" ", "") lub nieprawidłowe wartości, które zostały zamienione na NA, aby łatwiej było je wykluczyć.
+
+
+```{r}
+
 
 mieszkania[mieszkania == " "] <- NA
 
