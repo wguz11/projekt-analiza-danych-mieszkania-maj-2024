@@ -320,7 +320,32 @@ czyste_mieszkania %>%
   bold_labels() %>% 
   add_p(pvalue_fun = ~ style_pvalue(.x, digits = 2))
 ```
+# 4. Wnioskowanie statystyczne
+library(ggstatsplot)
 
+ggpiestats(
+  data=czyste_mieszkania,
+  x=price,
+  y=type
+)
+```
+```{r}
+ggwithinstats(
+  data=czyste_mieszkania,
+  y=pricePerSquareMeter, # musi być ilościowa
+  x =sizeCategory #grupująca
+) # test t studenta dla par (sparowanych)
+# g hedges wartość odchylenia
 
-
-
+```{r}
+czyste_mieszkania %>%
+  filter(city %in% c("gdanks", "warszawa", "krakow")) %>%
+         ggbetweenstats(
+           y=ceny, 
+           x=miasto,
+           bf.message = FALSE,
+           ylab="cena mieszkania",
+           xlab="miasto",
+           title="Różnica cen wg miast"
+           )
+```
