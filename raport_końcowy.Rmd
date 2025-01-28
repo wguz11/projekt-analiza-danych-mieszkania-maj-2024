@@ -33,6 +33,12 @@ library(summarytools)
 library(psych)
 mieszkania <- read.csv("apartments_pl_2024_05.csv")
 ```
+Dane zostały wczytane z pliku CSV, który zawiera informacje o mieszkaniach dostępnych na sprzedaż w Polsce w maju 2024 roku.  
+
+# 1. Data wrangling
+Data wrangling, znane również jako data munging, to proces przygotowywania danych do analizy poprzez oczyszczanie, transformowanie i strukturalizowanie surowych danych. Celem jest przekształcenie danych w formę, która jest łatwiejsza do analizy, eliminując błędy, usuwając duplikaty, uzupełniając brakujące wartości i konwertując dane do odpowiednich formatów.
+
+## 1.1 Wizualizacja brakujących danych
 
 vis_miss(mieszkania)
 
