@@ -126,22 +126,40 @@ czyste_mieszkania <- czyste_mieszkania %>% mutate(
 )
 ```
 
+# 2.Wizualizacja danych
+Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od stanu mieszkania, całościowo oraz za metr kwadratowy
 
 ```{r}
-ggplot(czyste_mieszkania, aes(x=price,fill=condition)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w Polsce", x="cena", y="ilość") + theme_ipsum()
+ggplot(czyste_mieszkania, aes(x=price,fill=condition)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od stanu mieszkania", x="cena", y="Liczba mieszkań") + theme_ipsum()
+ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=condition)) + geom_histogram(binwidth=1000) + labs(title="ceny mieszkań za metr kwadratowy w zależności od stanu mieszkania", x="cena za metr kwadratowy", y="ilość") + theme_ipsum()
+
 ```
 
 
-  
-ggplot
+Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od tego czy jest parking, całościowo oraz za metr kwadratowy
+
 ```{r}
-ggplot(czyste_mieszkania, aes(x=price,fill=hasParkingSpace)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w Polsce", x="cena", y="ilość") + theme_ipsum()
+ggplot(czyste_mieszkania, aes(x=price,fill=hasParkingSpace)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań w zależności od występowania parkingu", x="Cena", y="Liczba mieszkań") + theme_ipsum()
+ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=hasParkingSpace)) + geom_histogram(binwidth=1000) + labs(title="ceny mieszkań za metr kwadratowy w zależności od występowania parkingu", x="Cena", y="Liczba mieszkań") + theme_ipsum()
 
-ggplot(czyste_mieszkania, aes(x=price,fill=type)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w Polsce", x="cena", y="ilość") + theme_ipsum()
-
-ggplot(czyste_mieszkania, aes(x=price,fill=buildingMaterial)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w Polsce", x="cena", y="ilość") + theme_ipsum()
 ```
 
+Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od rodzaju zabudowania, całościowo oraz za metr kwadratowy
+
+```{r}
+ggplot(czyste_mieszkania, aes(x=price,fill=type)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od rodzaju zabudowy ", x="cena", y="Liczba mieszkań") + theme_ipsum()
+ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=type)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od rodzaju zabudowy", x="cena", y="Liczba mieszkań") + theme_ipsum()
+
+```
+
+Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od rodzaju materiałów budowalnych, całościowo oraz za metr kwadratowy
+```{r}
+ggplot(czyste_mieszkania, aes(x=price,fill=buildingMaterial)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od materiałów budowlanych", x="cena", y="Liczba mieszkań") + theme_ipsum()
+ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=buildingMaterial)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od materiałów budowlanych", x="cena", y="Liczba mieszkań") + theme_ipsum()
+
+```
+
+Wizualizujemy rozkład cen mieszkań na sprzedaż w Polsce w zależności od wielkości mieszkania, całościowo oraz za metr kwadratowy
 
 ```{r}
 ggplot(czyste_mieszkania, aes(x = price, fill = type)) +
@@ -149,11 +167,22 @@ geom_density(alpha = 0.5) +
 labs(
 title = "Rozkład cen mieszkań według standardu lokalu",
 x = "Cena" ,
-y = "Typ",
+y = "Liczba",
 fill = "Typ"
 ) +
 theme_minimal()
+
+ggplot(czyste_mieszkania, aes(x = pricePerSquareMeter, fill = sizeCategory)) +
+  geom_density(alpha = 0.5) +
+  labs(
+    title = "Rozkład cen mieszkań za metr kwadratowy według wielkości lokalu",
+    x = "Cena za metr kwadratowy" ,
+    y = "Liczba",
+    fill = "Wielkość"
+  ) +
+  theme_minimal()
 ```
+Wizualizujemy rozkład cen mieszkań na sprzedaż w Polsce w zależności od miasta, całościowo oraz za metr kwadratowy
 
 
 ```{r}
@@ -165,6 +194,16 @@ x = "miasto" ,
 y = "cena"
 ) +
 theme_minimal()
+theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(czyste_mieszkania, aes(x = city, y = pricePerSquareMeter)) +
+  geom_boxplot(fill = "pink", color = "blue") +
+  labs(
+    title = "Cena mieszkań według miasta",
+    x = "miasto" ,
+    y = "cena za metr kwadratowy"
+  ) +
+  theme_minimal()
 theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
@@ -180,8 +219,6 @@ axis.text.x = element_text(hjust = 1),
 axis.text.y = element_text(hjust = 1)
 )
 ```
-
-
 
 
 ```{r}
