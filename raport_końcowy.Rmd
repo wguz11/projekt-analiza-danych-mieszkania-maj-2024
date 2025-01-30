@@ -46,13 +46,13 @@ Na początku identyfikujemy brakujące dane w zestawie, aby upewnić się, że a
 Używamy funkcji vis_miss() do wizualizacji braków oraz missing_pattern() do zrozumienia wzorców brakujących wartości.
 
 
-```{r}
+```{r `brakujące dane`}
 vis_miss(mieszkania)
 ```
 Łącznie brakujących danych w całym zbiorze jest 6,3%. Zmienną, dla której wystąpił największy brak danych (aż 73%) była zmienna "condition", która jest zmienną binarną, określającą kondycję lokalu. Drugą zmienną z największymi brakami (41%) była zmienna określająca rodzaj materiału, z jakiego jest zbudowany budynek, w którym znajduje się mieszkanie. Kolejne zmienne, które miały znaczące braki dane to: rodzaj mieszkania (20%), piętro, na którym się znajduje (17%) i rok wybudowania (16%).
 
 
-```{r}
+```{r `brakujące dane`}
 missing_pattern(mieszkania, rotate.names = TRUE)
 ```
 
@@ -73,7 +73,7 @@ Kolejno sprawdzamy naruszenie reguł.
 Wyniki pokazują, ile rekordów łamie zdefiniowane reguły, co może wskazywać na błędy w danych.
 summary(violatedEdits(reguly, mieszkania))
 
-```{r}
+```{r`Wizualizacja błędów`}
 summary(violatedEdits(reguly, mieszkania))
 bledy <- violatedEdits(reguly, mieszkania)
 plot(bledy) # Wizualizacja błędów dla łatwiejszej interpretacji
@@ -98,13 +98,13 @@ mieszkania[localizeErrors(reguly,mieszkania)$adapt] <- NA
 Uzupełnianie brakujących danych metodą hot-deck, która zastępuje brakujące wartości na podstawie podobnych rekordów.
 Jest to efektywna metoda w przypadku, gdy dane mają wiele braków, ale są wystarczająco kompletne do uzupełnienia na podstawie istniejących wzorców.
 
-```{r}
+```{r `Imputacja braków`}
 czyste_mieszkania <- hotdeck(mieszkania)
 
 ```
 Po uzupełnieniu braków sprawdzamy podsumowanie danych, aby upewnić się, że proces przebiegł pomyślnie.
 
-```{r}
+```{r `Podsumowanie danych`}
 summary(czyste_mieszkania)
 
 ```
@@ -113,7 +113,7 @@ Aby dostarczyć dodatkowych informacji wartych przeanalizowania, tworzymy nowe z
 Pomagają one w lepszym zrozumieniu danych i umożliwiają bardziej szczegółowe analizy.
 W tym celu tworzymy zmienną "pricePerSquareMeter" określającą cenę za metr kwadratowy. Jest to ważna metryka w analizie rynku nieruchomości, ponieważ pozwala na porównanie cen mieszkań niezależnie od ich wielkości.
 
-```{r}
+```{r`Obliczenie ceny za metr kwadratowy`}
 
 czyste_mieszkania <- czyste_mieszkania %>% mutate(pricePerSquareMeter = price / squareMeters)
 ```
@@ -141,7 +141,7 @@ czyste_mieszkania <- czyste_mieszkania[, !sapply(czyste_mieszkania, is.logical)]
 # 2.Wizualizacja danych
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od stanu mieszkania, całościowo oraz za metr kwadratowy
 
-```{r}
+```{r`Wizualizacja danych`}
 options(scipen=999)
 ggplot(czyste_mieszkania, aes(x=price,fill=condition)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od stanu mieszkania", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
@@ -153,7 +153,7 @@ ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=condition)) + geom_hist
 
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od tego czy jest parking, całościowo oraz za metr kwadratowy
 
-```{r}
+```{r`Wizualizacja danych`}
 
 ggplot(czyste_mieszkania, aes(x=price,fill=hasParkingSpace)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań w zależności od występowania parkingu", x="Cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
@@ -165,22 +165,26 @@ ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=hasParkingSpace)) + geo
 
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od rodzaju zabudowania, całościowo oraz za metr kwadratowy
 
-```{r}
-ggplot(czyste_mieszkania, aes(x=price,fill=type)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od rodzaju zabudowy ", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans")
-ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=type)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od rodzaju zabudowy", x="cena za metr kwadratowy", y="Liczba mieszkań") + theme_ipsum(base_family="sans")
+```{r`Wizualizacja danych`}
+ggplot(czyste_mieszkania, aes(x=price,fill=type)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od rodzaju zabudowy ", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
+                       label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
+ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=type)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od rodzaju zabudowy", x="cena za metr kwadratowy", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
+                       label_number(scale = 1e-3, prefix = "", suffix = " TYS ZŁ", accuracy = 1)) 
 
 ```
 
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od rodzaju materiałów budowalnych, całościowo oraz za metr kwadratowy
-```{r}
-ggplot(czyste_mieszkania, aes(x=price,fill=buildingMaterial)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od materiałów budowlanych", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans")
-ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=buildingMaterial)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od materiałów budowlanych", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans")
+```{r`Wizualizacja danych`}
+ggplot(czyste_mieszkania, aes(x=price,fill=buildingMaterial)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od materiałów budowlanych", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
+                       label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
+ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=buildingMaterial)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od materiałów budowlanych", x="cena za metr kwadratowy", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
+                       label_number(scale = 1e-3, prefix = "", suffix = " TYS ZŁ", accuracy = 1)) 
 
 ```
 
 Wizualizujemy rozkład cen mieszkań na sprzedaż w Polsce w zależności od wielkości mieszkania, całościowo oraz za metr kwadratowy
 
-```{r}
+```{r`Wizualizacja danych`}
 ggplot(czyste_mieszkania, aes(x = price, fill = type)) +
 geom_density(alpha = 0.5) +
 labs(
@@ -189,7 +193,8 @@ x = "Cena" ,
 y = "Liczba",
 fill = "Typ"
 ) +
-theme_minimal()
+theme_minimal() +  scale_x_continuous(labels  = 
+                       label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
 
 ggplot(czyste_mieszkania, aes(x = pricePerSquareMeter, fill = sizeCategory)) +
   geom_density(alpha = 0.5) +
@@ -199,15 +204,29 @@ ggplot(czyste_mieszkania, aes(x = pricePerSquareMeter, fill = sizeCategory)) +
     y = "Liczba",
     fill = "Wielkość"
   ) +
-  theme_minimal()
+  theme_minimal() +  scale_x_continuous(labels  = 
+                       label_number(scale = 1e-3, prefix = "", suffix = " TYS ZŁ", accuracy = 1)) 
 ```
 Wizualizujemy rozkład cen mieszkań na sprzedaż w Polsce w zależności od miasta, całościowo oraz za metr kwadratowy
 
 
-```{r}
+```{r`Wizualizacja danych`}
 miasta <- czyste_mieszkania %>%
   mutate(city_change = case_when(city == "lodz"~ "Łódź",
-                                 city == "bialystok" ~ "Białystok"))
+                                 city == "bialystok" ~ "Białystok",
+                                 city == "bydgoszcz" ~ "Bydgoszcz",
+                                 city == "czestochowa" ~ "Częstochowa",
+                                 city == "gdansk" ~ "Gdańsk",
+                                 city == "gdynia" ~ "Gdynia",
+                                 city == "katowice" ~ "Katowice",
+                                 city == "krakow" ~ "Kraków",
+                                 city == "lublin" ~ "Lublin",
+                                 city == "poznan" ~ "Poznań",
+                                 city == "radom" ~ "Radom",
+                                 city == "rzeszow" ~ "Rzeszów",
+                                 city == "szczecin" ~ "Szczecin",
+                                 city == "warszawa" ~ "Warszawa",
+                                 city == "wroclaw" ~ "Wrocław"))
 
 ggplot(miasta, aes(x = city_change, y = price)) +
 geom_boxplot(fill = "pink", color = "blue") +
@@ -219,7 +238,7 @@ y = "cena"
 theme_minimal()+
 theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-ggplot(czyste_mieszkania, aes(x = city, y = pricePerSquareMeter)) +
+ggplot(miasta, aes(x = city_change, y = pricePerSquareMeter)) +
   geom_boxplot(fill = "pink", color = "blue") +
   labs(
     title = "Cena mieszkań według miasta",
@@ -231,7 +250,7 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
-```{r}
+```{r`Korelacja`}
 ggcorr(
 data = czyste_mieszkania %>% select(where(is.numeric)),
 method = c("pairwise.complete.obs" , "pearson"),
@@ -247,7 +266,7 @@ Powyżej przedstawiona jest macierz korelacji. Najsilniej skorelowane są ze sob
 # 3. Analiza opisowa
 
 Statystki opisowe dla zmiennej cena
-```{r}
+```{r`Statystyki opisowe cena`}
 mean(czyste_mieszkania$price)
     median(czyste_mieszkania$price)
     sd(czyste_mieszkania$price) #standard deviation
@@ -264,7 +283,7 @@ mean(czyste_mieszkania$price)
 ```
 
 Statystyki opisowe dla zmiennej cena za metr kwadratowy
-```{r}
+```{r`Statystyki opisowe cena za metr kwadratowy`}
 mean(czyste_mieszkania$pricePerSquareMeter)
 median(czyste_mieszkania$pricePerSquareMeter)
 sd(czyste_mieszkania$pricePerSquareMeter) #standard deviation
@@ -283,7 +302,7 @@ quantile(czyste_mieszkania$pricePerSquareMeter,probs=c(0,0.1,0.25,0.5,0.75,0.95,
 
 
 
-```{r}
+```{r`Raport statystyk opisowych cena`}
 
 raport_ <-
        list("Min"=  min(czyste_mieszkania$price),
@@ -308,7 +327,7 @@ raport
 ```
 Rozkład cen mieszkań na sprzedaż w zależności od piętra
 
-```{r}
+```{r`Rozkład cen w zależności od piętra`}
 library(gtsummary)
 mieszkania %>%
   select(price,floor) %>%
@@ -329,7 +348,7 @@ mieszkania %>%
 
 Rozkład cen za metr kwadratowy według wielkości mieszkania
 
-```{r}
+```{r`Rozkład cen w zależności od wielkości mieszkania`}
 czyste_mieszkania %>%
   select(pricePerSquareMeter,sizeCategory) %>%
   tbl_summary(
@@ -355,7 +374,7 @@ ggpiestats(
   y=type
 )
 ```
-```{r}
+```{r`Wnioskowanie statystyczne`}
 ggwithinstats(
   data=czyste_mieszkania,
   y=pricePerSquareMeter, # musi być ilościowa
@@ -364,7 +383,7 @@ ggwithinstats(
 ```
 # g hedges wartość odchylenia
 
-```{r}
+```{r`Wnioskowanie statystyczne`}
 czyste_mieszkania %>%
   filter(city %in% c("gdanks", "warszawa", "krakow")) %>%
          ggbetweenstats(
@@ -380,7 +399,7 @@ czyste_mieszkania %>%
 Hipoteza zerowa (H0): Średnie ceny mieszkań w Gdańsku i Warszawie są równe.
 Hipoteza alternatywna (HA): Średnie ceny mieszkań w Gdańsku i Warszawie różnią się.
 
-```{r}
+```{r`Test t-studenta`}
 warszawa_gdansk <- mieszkania %>% filter(city %in% c("warszawa", "gdansk"))
 ggbetweenstats(
   data = warszawa_gdansk,
@@ -389,7 +408,7 @@ ggbetweenstats(
   title = "Porównanie cen mieszkań między Warszawą a Gdańskiem",
   xlab = "Miasto",
   ylab = "Cena mieszkania",
-  type = "parametric" # Test t-Studenta
+  type = "parametric"
 )
 ```
 
