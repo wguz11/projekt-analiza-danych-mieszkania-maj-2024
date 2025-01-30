@@ -132,14 +132,6 @@ Dodatkowo, w celu ułatwienia przetwarzania danych, usuwamy kolumny z wartościa
 ```{r}
 table(czyste_mieszkania$city)
 czyste_mieszkania <- czyste_mieszkania[, !sapply(czyste_mieszkania, is.logical)]
-czyste_mieszkania[] <- lapply(czyste_mieszkania, function(x) {
-  if (is.factor(x) || is.character(x)) {
-    x[x == "no"] <- 0
-    x[x == "yes"] <- 1
-  }
-  return(x)
-})
-
 
 ```
 
