@@ -130,7 +130,7 @@ czyste_mieszkania <- czyste_mieszkania %>% mutate(
 Dodatkowo, w celu ułatwienia przetwarzania danych, usuwamy kolumny z wartościami logicznymi. Zmiennych z tymi danymi i tak nie będziemy analizować w dalszej części projektu, więc usuwamy je w celem uzyskania większej przejrzystości oraz zminimalizowania wielkości danych.
 
 ```{r}
-table(czyste_mieszkania$city)
+
 czyste_mieszkania <- czyste_mieszkania[, !sapply(czyste_mieszkania, is.logical)]
 
 ```
@@ -358,3 +358,26 @@ czyste_mieszkania %>%
            title="Różnica cen wg miast"
            )
 ```
+## Test t-Studenta - porównanie cen mieszkań w Warszawie i Gdańsku
+Hipoteza zerowa (H0): Średnie ceny mieszkań w Gdańsku i Warszawie są równe.
+Hipoteza alternatywna (HA): Średnie ceny mieszkań w Gdańsku i Warszawie różnią się.
+
+```{r}
+warszawa_gdansk <- mieszkania %>% filter(city %in% c("warszawa", "gdansk"))
+ggbetweenstats(
+  data = warszawa_gdansk,
+  x = city,
+  y = price,
+  title = "Porównanie cen mieszkań między Warszawą a Gdańskiem",
+  xlab = "Miasto",
+  ylab = "Cena mieszkania",
+  type = "parametric" # Test t-Studenta
+)
+```
+
+Przeprowadzony test t-Studenta dla niezależnych prób wykazał istotną statystycznie różnicę w średnich 
+cenach mieszkań między Warszawą a Gdańskiem (t = -16.015, df = 3607.3, p < 2.2e-16). Średnia cena mieszkania 
+w Gdańsku wynosiła 889 465,9 zł, natomiast w Warszawie była wyższa i wynosiła 1 057 419,3 zł. Przedział ufności 
+dla różnicy średnich wynosił (-188 514,8 zł; -147 391,9 zł), co oznacza, że ceny w Warszawie były średnio o 147-188 tys. zł 
+wyższe. Otrzymane wyniki pozwalają odrzucić hipotezę zerową i potwierdzają, że różnica cen mieszkań między tymi miastami nie 
+jest przypadkowa, lecz statystycznie istotna.
