@@ -199,13 +199,13 @@ Wykres reprezentuje wyraźnie, iż mieszkania w budynkach zbudowanych z cegły b
 Wizualizujemy rozkład cen mieszkań na sprzedaż w Polsce w zależności od wielkości mieszkania, całościowo oraz za metr kwadratowy
 
 ```{r Wizualizacja danych}
-ggplot(czyste_mieszkania, aes(x = price, fill = type)) +
+ggplot(czyste_mieszkania, aes(x = price, fill = sizeCategory)) +
 geom_density(alpha = 0.5) +
 labs(
-title = "Rozkład cen mieszkań według standardu lokalu",
+title = "Rozkład cen mieszkań według wielkości lokalu",
 x = "Cena" ,
 y = "Liczba",
-fill = "Typ"
+fill = "Wielkość"
 ) +
 theme_minimal() +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
@@ -222,6 +222,8 @@ ggplot(czyste_mieszkania, aes(x = pricePerSquareMeter, fill = sizeCategory)) +
                        label_number(scale = 1e-3, prefix = "", suffix = " TYS ZŁ", accuracy = 1)) 
 ```
 INTERPRETACJA:
+Cena całościowa za mieszkanie różni się znacząco w zależności od wielkości mieszkania. Najwięcej na rynku jest mieszkań małych w cenie ok. 0,5 mln zł., następnie średnich za ok 0,6 mln zł. Dużych mieszkań jest najwięcej w przedziale cenowym od ok. 0,8 mln zł do 1,6 mln zł. Mieszkania o wyższej cenie, np. pow. 1,5 mln zł to głównie mieszkania o dużej wielkości. Te mniejsze, są analogicznie tańsze. 
+
 Na rynku nieruchomości dominują dwa typy mieszkań: średnie i małe, z czego te średnie, wraz z dużymi skupiają się wokół ceny ok. 14 tys. zł za m2. Jednak te małe oscylują głównie wokól ceny 18 tys. zł za m2. Wnioskując, małe mieszkania pow. 16 tys. zł są droższe za m2 od tych większych wielkościowo. Duże mieszkania są najmniej stabilne, jako że cena za m2 w ich przypadku rozkłada się najbardziej równomiernie, np. jest tyle samo dużych mieszkań za 12 tys, zł/m2, co tych za 20 tys. zł/m2. 
 
 
