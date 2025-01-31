@@ -77,7 +77,7 @@ Kolejno sprawdzamy naruszenie reguł.
 Wyniki pokazują, ile rekordów łamie zdefiniowane reguły, co może wskazywać na błędy w danych.
 summary(violatedEdits(reguly, mieszkania))
 
-```{r`Wizualizacja błędów`}
+```{r Wizualizacja błędów}
 summary(violatedEdits(reguly, mieszkania))
 bledy <- violatedEdits(reguly, mieszkania)
 plot(bledy) # Wizualizacja błędów dla łatwiejszej interpretacji
@@ -117,7 +117,7 @@ Aby dostarczyć dodatkowych informacji wartych przeanalizowania, tworzymy nowe z
 Pomagają one w lepszym zrozumieniu danych i umożliwiają bardziej szczegółowe analizy.
 W tym celu tworzymy zmienną "pricePerSquareMeter" określającą cenę za metr kwadratowy. Jest to ważna metryka w analizie rynku nieruchomości, ponieważ pozwala na porównanie cen mieszkań niezależnie od ich wielkości.
 
-```{r`Obliczenie ceny za metr kwadratowy`}
+```{r Obliczenie ceny za metr kwadratowy}
 
 czyste_mieszkania <- czyste_mieszkania %>% mutate(pricePerSquareMeter = price / squareMeters)
 ```
@@ -144,7 +144,7 @@ czyste_mieszkania <- czyste_mieszkania[, !sapply(czyste_mieszkania, is.logical)]
 # 2.Wizualizacja danych
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od stanu mieszkania, całościowo oraz za metr kwadratowy
 
-```{r`Wizualizacja danych`}
+```{r Wizualizacja danych}
 options(scipen=999)
 ggplot(czyste_mieszkania, aes(x=price,fill=condition)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od stanu mieszkania", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
@@ -152,11 +152,14 @@ ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=condition)) + geom_hist
                        label_number(scale = 1e-3, prefix = "", suffix = " TYS ZŁ", accuracy = 1))
 
 ```
+INTERPRETACJA:
+Większość mieszkań na sprzedaż, zarówno w standardzie "low", jak i "premium", znajduje się w przedziale cenowym poniżej 1 mln zł, przy czym mieszkania w niższym standardzie dominują w tym segmencie. Mieszkania typu premium są częściej spotykane w wyższych przedziałach cenowych (1-3 mln zł) i charakteryzują się bardziej zróżnicowanym rozkładem cen. W miarę wzrostu ceny proporcja mieszkań "premium" rośnie, co wskazuje, iż wyższy standard jest kluczowym czynnikiem wpływającym na cenę. Mieszkania o niższym standardzie są najczęściej wybierane w budżetowym segmencie rynku, podczas gdy droższe oferty reprezentowane są przez mieszkania o wyższym standardzie.
 
+Dodatkowo, jak widać na drugiej wizualizacji, mieszkania typu „low” dominują w niższych przedziałach cen za metr kwadratowy, szczególnie w zakresie do 10 tys. zł/m². Analogicznie, mieszkania „premium" są reprezentowane w wyższych przedziałach cenowych, zwłaszcza powyżej 15 tys. zł/m². Wraz ze wzrostem ceny za metr kwadratowy, udział mieszkań "low" maleje, a "premium" rośnie, co wskazuje na wyraźne różnice w cenach między standardami.
 
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od tego czy jest parking, całościowo oraz za metr kwadratowy
 
-```{r`Wizualizacja danych`}
+```{r Wizualizacja danych}
 
 ggplot(czyste_mieszkania, aes(x=price,fill=hasParkingSpace)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań w zależności od występowania parkingu", x="Cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
@@ -165,29 +168,37 @@ ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=hasParkingSpace)) + geo
                        label_number(scale = 1e-3, prefix = "", suffix = " TYS ZŁ", accuracy = 1)) 
 
 ```
+INTERPRETACJA:
+Znacząca liczba mieszkań nie posiada miejsca parkingowego. Jednak mieszkania, które posiadają miejsce parkingowe stanowią ok 30% dostępnych na rynku mieszkań. Największa liczba mieszkań z parkingiem skupia się wokół ceny ok. 700 tys. zł, tak samo jak mieszkania bez parkingu. Ogólna analiza wskazuje na to, iż ceny mieszkań nie są silnie skorelowane z cechą posiadania miejsca parkingowego. 
+
 
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od rodzaju zabudowania, całościowo oraz za metr kwadratowy
 
-```{r`Wizualizacja danych`}
+```{r Wizualizacja danych}
 ggplot(czyste_mieszkania, aes(x=price,fill=type)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od rodzaju zabudowy ", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
 ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=type)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od rodzaju zabudowy", x="cena za metr kwadratowy", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-3, prefix = "", suffix = " TYS ZŁ", accuracy = 1)) 
 
 ```
+INTERPRETACJA:
+Największy udział nieruchomości mieszkań dostępnych na rynku stanowią mieszkania typu "apartmentBuilding", czyli mieszkania znajdujące się w typowych apartamentowcach, następnie mieszkania znajdujące się w blokach mieszkalnych, a wchodzące w skład kamienice tworzą najmniejszą część. Jak można zauważyć, najwięcej obserwacji mieści się w przedziale 0,6 - 0,75 mln zł. Ceny na metr kwadratowy rozkładają się równomiernie dla mieszkań w kamienicach, co znaczy, że cena za metr kawdratowy w tego przypadku mieszkaniach różni się znacząco, niezależnie od typu tego mieszkania. W apartamentowcach natomiast, najwięcej mieszkań charkateryzuje się ceną ok. 14 tys. zł za m2, tak samo jak w przypadku mieszkania w bloku. 
+
 
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od rodzaju materiałów budowalnych, całościowo oraz za metr kwadratowy
-```{r`Wizualizacja danych`}
+```{r Wizualizacja danych}
 ggplot(czyste_mieszkania, aes(x=price,fill=buildingMaterial)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od materiałów budowlanych", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
 ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=buildingMaterial)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od materiałów budowlanych", x="cena za metr kwadratowy", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-3, prefix = "", suffix = " TYS ZŁ", accuracy = 1)) 
 
 ```
+INTERPRETACJA:
+Wykres reprezentuje wyraźnie, iż mieszkania w budynkach zbudowanych z cegły budowlanej stanowią decydującą większość, a te z płyty betonowej mniejszość. Udział obu typów mieszkań wzrasta wraz ceną do ok. 700 tys. zł, po czym ich udział maleje wraz z wzrostem ceny. Podobnie w przypadku ceny za m2, jednak można zauważyć, że ceny za metr kwadratowy w mieszkniach w budynkach z płty budowlanej są bardziej stabilne, jako że rozkładają się bardziej równomiernie. Droższe mieszkania znajdują się w znacznej większości w budynkach z cegły budowlanej.
 
 Wizualizujemy rozkład cen mieszkań na sprzedaż w Polsce w zależności od wielkości mieszkania, całościowo oraz za metr kwadratowy
 
-```{r`Wizualizacja danych`}
+```{r Wizualizacja danych}
 ggplot(czyste_mieszkania, aes(x = price, fill = type)) +
 geom_density(alpha = 0.5) +
 labs(
@@ -210,10 +221,14 @@ ggplot(czyste_mieszkania, aes(x = pricePerSquareMeter, fill = sizeCategory)) +
   theme_minimal() +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-3, prefix = "", suffix = " TYS ZŁ", accuracy = 1)) 
 ```
+INTERPRETACJA:
+Na rynku nieruchomości dominują dwa typy mieszkań: średnie i małe, z czego te średnie, wraz z dużymi skupiają się wokół ceny ok. 14 tys. zł za m2. Jednak te małe oscylują głównie wokól ceny 18 tys. zł za m2. Wnioskując, małe mieszkania pow. 16 tys. zł są droższe za m2 od tych większych wielkościowo. Duże mieszkania są najmniej stabilne, jako że cena za m2 w ich przypadku rozkłada się najbardziej równomiernie, np. jest tyle samo dużych mieszkań za 12 tys, zł/m2, co tych za 20 tys. zł/m2. 
+
+
 Wizualizujemy rozkład cen mieszkań na sprzedaż w Polsce w zależności od miasta, całościowo oraz za metr kwadratowy
 
 
-```{r`Wizualizacja danych`}
+```{r Wizualizacja danych}
 miasta <- czyste_mieszkania %>%
   mutate(city_change = case_when(city == "lodz"~ "Łódź",
                                  city == "bialystok" ~ "Białystok",
@@ -251,6 +266,9 @@ ggplot(miasta, aes(x = city_change, y = pricePerSquareMeter)) +
   theme_minimal() +
 theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+INTERPRETACJA:
+Najdroższe mieszkania zarówno pod względem całkowitej ceny za nieruchomość, jak i ceny za metr kwadratowy to: 1. Warszawa, 2. Kraków, 3. Gdańsk, 4. Gdynia. Najtańsze to Częstochowa i Radom. 
+
 Wizualizujemy cenę za m2 w zależności od liczby pokoi
 ```{r}
 ggplot(czyste_mieszkania, aes(x = factor(rooms), y = pricePerSquareMeter)) +
@@ -260,9 +278,11 @@ ggplot(czyste_mieszkania, aes(x = factor(rooms), y = pricePerSquareMeter)) +
        y = "Cena za m² (PLN)") +
   theme_minimal()
 ```
+INTERPRETACJA:
+Mieszkania z jednym pokojem posiadają największą cenę za m2, następnie mieszkania 6-pokojowe, 5-pokojowe. Najtańsze są mieszkania z 3-ma pokojami. 
 
 
-```{r`Korelacja`}
+```{r Korelacja}
 ggcorr(
 data = czyste_mieszkania %>% select(where(is.numeric)),
 method = c("pairwise.complete.obs" , "pearson"),
@@ -278,7 +298,7 @@ Powyżej przedstawiona jest macierz korelacji. Najsilniej skorelowane są ze sob
 # 3. Analiza opisowa
 
 Statystki opisowe dla zmiennej cena
-```{r`Statystyki opisowe cena`}
+```{r Statystyki opisowe cena}
 mean(czyste_mieszkania$price)
     median(czyste_mieszkania$price)
     sd(czyste_mieszkania$price) #standard deviation
@@ -295,7 +315,7 @@ mean(czyste_mieszkania$price)
 ```
 
 Statystyki opisowe dla zmiennej cena za metr kwadratowy
-```{r`Statystyki opisowe cena za metr kwadratowy`}
+```{r Statystyki opisowe cena za metr kwadratowy}
 mean(czyste_mieszkania$pricePerSquareMeter)
 median(czyste_mieszkania$pricePerSquareMeter)
 sd(czyste_mieszkania$pricePerSquareMeter) #standard deviation
@@ -314,7 +334,7 @@ quantile(czyste_mieszkania$pricePerSquareMeter,probs=c(0,0.1,0.25,0.5,0.75,0.95,
 
 
 
-```{r`Raport statystyk opisowych cena`}
+```{r Raport statystyk opisowych cena}
 
 raport_ <-
        list("Min"=  min(czyste_mieszkania$price),
@@ -339,7 +359,7 @@ raport
 ```
 Rozkład cen mieszkań na sprzedaż w zależności od piętra
 
-```{r`Rozkład cen w zależności od piętra`}
+```{r `Rozkład cen w zależności od piętra`}
 library(gtsummary)
 mieszkania %>%
   select(price,floor) %>%

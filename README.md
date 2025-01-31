@@ -1,7 +1,7 @@
 mieszkania <- read.csv("apartments_pl_2024_05.csv")
 View(mieszkania)
 
-install.packages("naniar")
+
 library(naniar)
 install.packages("visdat")
 vis_miss(mieszkania)
@@ -101,5 +101,47 @@ theme(
 axis.text.x = element_text(hjust = 1), 
 axis.text.y = element_text(hjust = 1)
 )
-)
-)
+
+install.packages("summarytools")
+mean(price)
+    median(price)
+    sd(price) #standard deviation
+    var(price) #variance
+    coeff_var<-sd(price)/mean(price) #coefficient of variability %
+    coeff_var
+    IQR(price)# difference between quartiles =Q3-Q1 
+    sx<-IQR(price)/2  #interquartile deviation
+    coeff_varx<-sx/median(price) #IQR coefficient of variability %
+    coeff_varx
+    min(price)
+    max(price)
+    quantile(price,probs=c(0,0.1,0.25,0.5,0.75,0.95,1),na.rm=TRUE)
+
+install.packages("qwraps2")
+install.packages ("psych")
+
+price czyste_mieszkania$price
+
+
+library(psych)
+raport <-
+  list("price" =
+       list("Min"=  min(price),
+            "Max"=  max(price),
+            "Kwartyl dolny"=  quantile(price,0.25),
+            "Mediana"=  round(median(price),2),
+            "Kwartyl górny"=  quantile(price,0.75),
+            "Średnia"=  round(mean(price),2),
+            "Odch. std."=  round(sd(price),2),
+            "IQR"=  round(IQR(price),2),
+            "Odchylenie ćwiartkowe"=round(IQR(price)/2,2),
+            "Odch. std. w %"=round((sd(price)/mean(price)),2),
+            "Odch. ćwiartkowe w %"=round((IQR(price)/median(price)),2),
+            "Skośność"=round(skew(price),2),
+            "Kurtoza"=round(kurtosi(price),2)
+            ))
+
+table<-summary_table(czyste_mieszkania, summaries = raport, by = c("city"))
+
+
+
