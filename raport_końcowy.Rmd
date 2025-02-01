@@ -315,6 +315,33 @@ mean(czyste_mieszkania$price)
     max(czyste_mieszkania$price)
     quantile(czyste_mieszkania$price,probs=c(0,0.1,0.25,0.5,0.75,0.95,1),na.rm=TRUE)
 ```
+INTERPRETACJA:
+
+1. Średnia cena mieszkania (mean) = 826 193,1 zł – przeciętna cena mieszkania w zbiorze danych
+2. Mediana (median) = 722 000 zł – połowa mieszkań ma cenę niższą, a połowa wyższą niż 722 000. Ponieważ mediana jest niższa od średniej, sugeruje to prawdopodobną prawoskośność rozkładu (kilka bardzo drogich mieszkań podnosi średnią).
+3. Odchylenie standardowe (sd) = 432 677,8 – duża wartość wskazuje na znaczne zróżnicowanie cen, oznacza to, że przeciętnie każda cena mieszkania różni się od średniej o ok. 432 tys. zł
+4. Wariancja (var) = 187 210 059 317 – wysoka wartość, ponownie wskazująca na duże zróżnicowanie cen na rynku mieszkaniowym
+5. Współczynnik zmienności (coeff_var) = 0,5237 (52,37%) – oznacza, że rozrzut cen w stosunku do średniej jest stosunkowo duży, bo odchylenie standardowe stanowi ponad połowę wartości średniej, co oznacza duże rozproszenie cen w stosunku do przeciętnej wartości
+6. Rozstęp międzykwartylowy (IQR) = 420 000 – różnica między ceną 75. a 25. percentyla, czyli zakres cen środkowych 50% mieszkań wynosi 420 000 zł
+7. IQR-współczynnik zmienności (coeff_varx) = 0,2909 (29,09%) – bardziej odporna miara zmienności, sugeruje umiarkowane zróżnicowanie cen w zakresie międzykwartylowym
+8.	Cena minimalna (min) = 194 999 zł – najtańsze mieszkanie w naszym zbiorze danych
+9.	Cena maksymalna (max) = 2 999 000 zł – najdroższe mieszkanie w naszym zbiorze danych
+
+10. Kwantyle:
+•	10% mieszkań kosztuje mniej niż 399 000 zł,
+•	25% mieszkań kosztuje mniej niż 550 000 zł,
+•	50% mieszkań kosztuje mniej niż 722 000 zł (mediana),
+•	75% mieszkań kosztuje mniej niż 970 000 zł,
+•	95% mieszkań kosztuje mniej niż 1 715 000 zł,
+•	100% - najdroższe mieszkanie kosztuje 2 999 000 zł.
+
+11. Wnioski:
+•	Rozkład cen mieszkań jest prawdopodobnie prawoskośny – kilka bardzo drogich mieszkań podnosi średnią powyżej mediany.
+•	Istnieje duże zróżnicowanie cen mieszkań, co widać po wysokim odchyleniu standardowym i współczynniku zmienności.
+•	Środkowe 50% mieszkań kosztuje od 550 000 do 970 000, co daje dobrą miarę typowego przedziału cen.
+•	Najtańsze mieszkania zaczynają się od ok. 195 000, ale ceny mogą sięgać prawie 3 milionów, co sugeruje duży rozstrzał w zależności od standardu, lokalizacji i innych czynników.
+
+
 
 Statystyki opisowe dla zmiennej cena za metr kwadratowy
 ```{r Statystyki opisowe cena za metr kwadratowy}
@@ -332,6 +359,33 @@ min(czyste_mieszkania$pricePerSquareMeter)
 max(czyste_mieszkania$pricePerSquareMeter)
 quantile(czyste_mieszkania$pricePerSquareMeter,probs=c(0,0.1,0.25,0.5,0.75,0.95,1),na.rm=TRUE)
 ```
+INTERPRETACJA:
+
+1. Średnia cena za m2 = 14 531,21 zł – przeciętny koszt metra kwadratowego w analizowanych mieszkaniach
+2. Mediana = 14 161,29 zł – połowa mieszkań ma cenę za m2 niższą, a połowa wyższą. Średnia jest nieznacznie wyższa od mediany, co może wskazywać na lekko prawoskośny rozkład ( ponownie kilka drogich mieszkań zawyża średnią)
+3. Odchylenie standardowe = 5 167,52 zł – wysoka wartość, oznaczająca duże zróżnicowanie cen za metr kwadratowy
+4. Wariancja = 26 703 237 – bardzo wysoka wartość, bardzo duże odchylenie od wartości średniej
+5. Współczynnik zmienności = 0,3556 (35,56%) –  rozrzut cen w stosunku do średniej jest spory, ale mniejszy niż dla całkowitej ceny mieszkań (gdzie wynosił 52,37%)
+6. Rozstęp międzykwartylowy (IQR) = 7 286,46 zł – różnica między 75. a 25. percentylem, czyli zakres cen dla środkowych 50% mieszkań
+7. IQR-współczynnik zmienności = 0,2573 (25,73%) – umiarkowana zmienność cen w zakresie międzykwartylowym.
+8. Cena minimalna = 4 359,86 zł/m2 – najtańsze mieszkanie w przeliczeniu na metr kwadratowy.
+9. Cena maksymaln = 30 732,48 zł/m2 – najwyższa cena za m2.
+
+10. Kwantyle:
+•	10% mieszkań ma cenę za m2 poniżej 7 906,18 zł.
+•	25% mieszkań ma cenę za m2 poniżej 10 570,68 zł.
+•	50% mieszkań (mediana): 14 161,29 zł/m2.
+•	75% mieszkań kosztuje mniej niż 17 857,14 zł/m2.
+•	95% mieszkań kosztuje mniej niż 23 966,09 zł/m2.
+•	Najdroższe mieszkania osiągają ceny do 30 732,48 zł/m2.
+
+
+11. Wnioski:
+•	Ceny za metr kwadratowy są mocno zróżnicowane – różnice między tańszymi a droższymi mieszkaniami są duże, tak samo jak w przypadku ogólnych cen za mieszkanie.
+•	Środkowe 50% mieszkań mieści się w zakresie od 10 570,68 zł do 17 857,14 zł/m2, co daje dobry obraz typowego przedziału cen.
+•	Rozkład cen jest prawdopodobnie asymetryczny (lekko prawoskośny), ponieważ średnia jest wyższa od mediany – oznacza to, że istnieje grupa bardzo drogich mieszkań zawyżających średnią.
+•	Dolne 10% mieszkań ma cenę poniżej 7 906 zł/m2, co może sugerować starsze budownictwo, gorszą lokalizację lub mieszkania wymagające remontu.
+•	Górne 5% mieszkań kosztuje ponad 23 966 zł/m2, co wskazuje na mieszkania premium, np. w bardzo atrakcyjnych lokalizacjach.
 
 
 
@@ -359,6 +413,15 @@ raport
 #table<-summary_table(czyste_mieszkania, summaries = raport, by = c("city"))
 
 ```
+INTERPRETACJA:
+Powyższy raport pokazuje wcześniej obliczone statystyki opisowe, ale w bardziej przystępny dla oka sposób. Dodatkowo, obliczone zostało:
+
+1. Odchylenie ćwiartkowe (IQR/2) = 210 000 zł – średnia odległość kwartylowa od mediany
+2. Odchylenie ćwiartkowe w % (IQR/Median) = 0,58 (58%) – pokazuje względną zmienność w środkowym zakresie cen 
+3. Skośność (skewness) = 1,74 – wskazuje na prawostronną skośność, czyli długi ogon w stronę wyższych cen (nasza hipoteza się potwierdziła - kilka bardzo drogich mieszkań zawyża średnią)
+4. Kurtoza (kurtosis) = 6,99 – wskazuje na rozkład skoncentrowany wokół średniej, co oznacza, że dane mają bardziej spiczasty rozkład niż rozkład normalny i występuje więcej wartości odstających (droższe mieszkania)
+
+
 Rozkład cen mieszkań na sprzedaż w zależności od piętra
 
 ```{r `Rozkład cen w zależności od piętra`}
@@ -382,7 +445,7 @@ mieszkania %>%
 
 Rozkład cen za metr kwadratowy według wielkości mieszkania
 
-```{r`Rozkład cen w zależności od wielkości mieszkania`}
+```{r Rozkład cen w zależności od wielkości mieszkania}
 czyste_mieszkania %>%
   select(pricePerSquareMeter,sizeCategory) %>%
   tbl_summary(
