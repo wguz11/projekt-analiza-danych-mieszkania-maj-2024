@@ -462,6 +462,34 @@ czyste_mieszkania %>%
   bold_labels() %>% 
   add_p(pvalue_fun = ~ style_pvalue(.x, digits = 2))
 ```
+INTERPRETACJA:
+
+Małe mieszkania mają najwyższe ceny za m2
+•	Średnia cena to 16 201 zł/m2, a mediana 16 604 zł/m2, co oznacza, że połowa mieszkań kosztuje więcej niż 16,6 tys. zł/m2.
+•	Najwyższy kwartyl (Q3) pokazuje, że 25% najdroższych małych mieszkań ma cenę powyżej 19 656 zł/m2.
+•	Maksymalna cena to 30 333 zł/m2, co sugeruje istnienie bardzo drogich apartamentów w tej kategorii.
+
+
+Średnie mieszkania mają najniższą cenę za m2
+•	Średnia wynosi 14 015 zł/m2, a mediana 13 611 zł/m2, czyli mniej niż w innych grupach.
+•	Największa grupa mieszkań (N = 13 784) – oznacza, że to dominujący segment na rynku.
+•	Duże zróżnicowanie cen: ceny wahają się od 4 360 do 30 732 zł/m2, ale Q3 to 16 915 zł/m2, więc większość mieszkań nie osiąga maksymalnych wartości.
+
+
+Duże mieszkania są droższe niż średnie, ale tańsze niż małe
+•	Średnia cena to 14 802 zł/m2, a mediana 14 327 zł/m2.
+•	Większa różnorodność cen (SD = 5 805) niż w przypadku średnich mieszkań, co sugeruje większe różnice w standardzie lub lokalizacji.
+•	Wysoka maksymalna cena 30 625 zł/m2, co oznacza, że luksusowe apartamenty w tej kategorii mocno zawyżają ceny.
+________________________________________
+PODUSUMOWANIE:
+
+- Najmniejsze mieszkania są najdroższe za metr kwadratowy – popyt na małe nieruchomości jest wyższy, szczególnie w dużych miastach.
+- Średnie mieszkania są najbardziej przystępne cenowo za m2 – większa podaż, niższe zainteresowanie inwestorów.
+- Duże mieszkania mają ceny pomiędzy małymi a średnimi, ale duże rozproszenie sugeruje, że standard i lokalizacja odgrywają istotną rolę.
+- Różnice są istotne statystycznie (p-value < 0.001) – wielkość mieszkania faktycznie wpływa na cenę za m2.
+
+
+
 # 4. Wnioskowanie statystyczne
 
 Dla ułatwienia analizy rozpoczynamy od zamiany zmiennych z opcjami "no" i "yes" na zmienne binarne
