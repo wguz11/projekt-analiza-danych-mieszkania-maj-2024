@@ -269,7 +269,7 @@ ggplot(miasta, aes(x = city_change, y = pricePerSquareMeter)) +
 theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 INTERPRETACJA:
-Najdroższe mieszkania zarówno pod względem całkowitej ceny za nieruchomość, jak i ceny za metr kwadratowy to: 1. Warszawa, 2. Kraków, 3. Gdańsk, 4. Gdynia. Najtańsze to Częstochowa i Radom. 
+Najdroższe mieszkania zarówno pod względem całkowitej ceny za nieruchomość, jak i ceny za metr kwadratowy to: 1. Warszawa, 2. Kraków, 3. Gdańsk, 4. Gdynia. Większość cen mieszkań w tych miastach zaczyna się od ok. 600 tys zł., a konczy na ponad 1 mln zł. Charakteryzują się one również największymi obserwacjami odstającymi, szczególnie górnymi, gdzie ceny mieszkań potrafią sięgać nawet do 3 mln zł.  Najtańsze mieszkania występują nastomiast w Częstochowie i Radomiu. Miasta charakteryzujące się najmniejszą liczbą obserwacji odstających to BIałystok, Bydgoszcz, Lublin, Radom i Rzeszów. 
 
 Wizualizujemy cenę za m2 w zależności od liczby pokoi
 ```{r}
@@ -281,7 +281,7 @@ ggplot(czyste_mieszkania, aes(x = factor(rooms), y = pricePerSquareMeter)) +
   theme_minimal()
 ```
 INTERPRETACJA:
-Mieszkania z jednym pokojem posiadają największą cenę za m2, następnie mieszkania 6-pokojowe, 5-pokojowe. Najtańsze są mieszkania z 3-ma pokojami. 
+Mieszkania z jednym pokojem posiadają największą cenę za m2 sięgając nawet do ponad 20 tys/m2 (co oznacza,że 25% tzw. kawalerek może kosztować więcej niż 20 tys/m2), kolejno są mieszkania 6-pokojowe odnaczające się górnym kwartylem bliskim 18 tys. zł/m2. Najtańsze są mieszkania z 3-ma lub 5-ma pokojami, gdzie 25% mieszkań w zestawieniu ma cenę za metr kwadratowy niższą niż ok. 8 tys. zł/m2.
 
 
 ```{r Korelacja}
