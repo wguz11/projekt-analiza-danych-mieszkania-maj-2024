@@ -422,27 +422,6 @@ Powyższy raport pokazuje wcześniej obliczone statystyki opisowe, ale w bardzie
 4. Kurtoza (kurtosis) = 6,99 – wskazuje na rozkład skoncentrowany wokół średniej, co oznacza, że dane mają bardziej spiczasty rozkład niż rozkład normalny i występuje więcej wartości odstających (droższe mieszkania)
 
 
-Rozkład cen mieszkań na sprzedaż w zależności od piętra
-
-```{r `Rozkład cen w zależności od piętra`}
-library(gtsummary)
-mieszkania %>%
-  select(price,floor) %>%
-  tbl_summary(
-    by=floor,
-    type = all_continuous() ~ "continuous2",
-    statistic = all_continuous() ~ c(
-      "{N_nonmiss}","{mean}","{sd}",
-      "{median} ({p25}, {p75})",
-      "{min}, {max}"),
-    missing = "no",
-    label = price ~ "Cena") %>%
-  modify_header(label ~ "**Zmienna**") %>%
-  modify_caption("**Tabela 1. Rozkład cen wg piętra**") %>%
-  bold_labels() %>% 
-  add_p(pvalue_fun = ~ style_pvalue(.x, digits = 2))
-```
-
 Rozkład cen za metr kwadratowy według wielkości mieszkania
 
 ```{r Rozkład cen w zależności od wielkości mieszkania}
@@ -608,17 +587,6 @@ ggbetweenstats(
 Analiza wariancji (ANOVA Welcha) wykazała istotne różnice w średnich cenach za m² między kategoriami mieszkań (F(2, 5400.09) = 272.18, p < 2.39e-113, ω² = 0.09). Najwyższą cenę odnotowano dla małych mieszkań (16 201,32 PLN/m²), a najniższą dla średnich (14 015,22 PLN/m²). Test Gamesa-Howella potwierdził istotność tych różnic. Wyższa cena małych mieszkań może wynikać z ich popularności w centrach miast, a średnie oferują najlepszy stosunek ceny do powierzchni. Wykres wiolinowy ilustruje te zależności, pokazując mediany i zakres cen.
 
 
-```{r}
-ggpiestats(
-  x = pricePerSquareMeter,
-  y = floor,
-  data = testy_mieszkania
-)
-```
-```{r}
-ggpiestats(
-  x = pricePerSquareMeter,
-  y = centreDistance,
-  data = testy_mieszkania
-)
-```
+# Podsumowanie 
+
+Projekt dotyczył analizy rynku mieszkaniowego w Polsce na podstawie danych z maja 2024 roku. Stwierdzono, że średnia cena mieszkania wyniosła 826 193,1 zł, a mediana 722 000 zł, przy czym cena za metr kwadratowy wahała się od 4 359,86 zł/m² do 30 732,48 zł/m², ze średnią 14 531,21 zł/m². Najdroższe mieszkania znajdują się w Warszawie, Krakowie i Trójmieście, natomiast najtańsze w Radomiu i Częstochowie. Wielkość mieszkania istotnie wpływa na cenę za m² – najmniejsze lokale są najdroższe, a obecność windy koreluje dodatnio z ceną mieszkań. Stwierdzono również silną zależność między typem budownictwa a dostępnością miejsc parkingowych. Test t-Studenta wykazał istotną różnicę cen mieszkań między Warszawą a Gdańskiem, a analiza ANOVA potwierdziła wpływ liczby pokoi na cenę za m². Rynek nieruchomości w Polsce cechuje duże zróżnicowanie cenowe, zależne od lokalizacji, standardu wykończenia, wielkości mieszkań oraz dodatkowych czynników.
