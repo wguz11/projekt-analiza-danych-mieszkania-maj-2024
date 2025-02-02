@@ -56,7 +56,7 @@ vis_miss(mieszkania)
 Łącznie brakujących danych w całym zbiorze jest 6,3%. Zmienną, dla której wystąpił największy brak danych (aż 73%) była zmienna "condition", która jest zmienną binarną, określającą kondycję lokalu. Drugą zmienną z największymi brakami (41%) była zmienna określająca rodzaj materiału, z jakiego jest zbudowany budynek, w którym znajduje się mieszkanie. Kolejne zmienne, które miały znaczące braki dane to: rodzaj mieszkania (20%), piętro, na którym się znajduje (17%) i rok wybudowania (16%).
 
 
-```{r `brakujące dane`}
+```{r `brakujące dane2`}
 missing_pattern(mieszkania, rotate.names = TRUE)
 ```
 
@@ -144,7 +144,7 @@ czyste_mieszkania <- czyste_mieszkania[, !sapply(czyste_mieszkania, is.logical)]
 # 2.Wizualizacja danych
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od stanu mieszkania, całościowo oraz za metr kwadratowy
 
-```{r Wizualizacja danych}
+```{r Wizualizacja danych2}
 options(scipen=999)
 ggplot(czyste_mieszkania, aes(x=price,fill=condition)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od stanu mieszkania", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
@@ -159,7 +159,7 @@ Dodatkowo, jak widać na drugiej wizualizacji, mieszkania typu „low” dominuj
 
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od tego czy jest parking, całościowo oraz za metr kwadratowy
 
-```{r Wizualizacja danych}
+```{r Wizualizacja danych3}
 
 ggplot(czyste_mieszkania, aes(x=price,fill=hasParkingSpace)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań w zależności od występowania parkingu", x="Cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
@@ -174,7 +174,7 @@ Znacząca liczba mieszkań nie posiada miejsca parkingowego. Jednak mieszkania, 
 
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od rodzaju zabudowania, całościowo oraz za metr kwadratowy
 
-```{r Wizualizacja danych}
+```{r Wizualizacja danych4}
 ggplot(czyste_mieszkania, aes(x=price,fill=type)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od rodzaju zabudowy ", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
 ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=type)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od rodzaju zabudowy", x="cena za metr kwadratowy", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
@@ -186,7 +186,7 @@ Największy udział nieruchomości mieszkań dostępnych na rynku stanowią mies
 
 
 Wizualizujemy ceny mieszkań na sprzedaż w Polsce w zależności od rodzaju materiałów budowalnych, całościowo oraz za metr kwadratowy
-```{r Wizualizacja danych}
+```{r Wizualizacja danych5}
 ggplot(czyste_mieszkania, aes(x=price,fill=buildingMaterial)) + geom_histogram(binwidth=100000) + labs(title="ceny mieszkań na sprzedaż w zależności od materiałów budowlanych", x="cena", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
                        label_number(scale = 1e-6, prefix = "", suffix = " MLN ZŁ", accuracy = 1)) 
 ggplot(czyste_mieszkania, aes(x=pricePerSquareMeter,fill=buildingMaterial)) + geom_histogram(binwidth=500) + labs(title="ceny mieszkań na sprzedaż za metr kwadratowy w zależności od materiałów budowlanych", x="cena za metr kwadratowy", y="Liczba mieszkań") + theme_ipsum(base_family="sans") +  scale_x_continuous(labels  = 
@@ -198,7 +198,7 @@ Wykres reprezentuje wyraźnie, iż mieszkania w budynkach zbudowanych z cegły b
 
 Wizualizujemy rozkład cen mieszkań na sprzedaż w Polsce w zależności od wielkości mieszkania, całościowo oraz za metr kwadratowy
 
-```{r Wizualizacja danych}
+```{r Wizualizacja danych6}
 ggplot(czyste_mieszkania, aes(x = price, fill = sizeCategory)) +
 geom_density(alpha = 0.5) +
 labs(
@@ -230,7 +230,7 @@ Na rynku nieruchomości dominują dwa typy mieszkań: średnie i małe, z czego 
 Wizualizujemy rozkład cen mieszkań na sprzedaż w Polsce w zależności od miasta, całościowo oraz za metr kwadratowy
 
 
-```{r Wizualizacja danych}
+```{r Wizualizacja danych7}
 miasta <- czyste_mieszkania %>%
   mutate(city_change = case_when(city == "lodz"~ "Łódź",
                                  city == "bialystok" ~ "Białystok",
